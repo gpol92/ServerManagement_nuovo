@@ -1,0 +1,46 @@
+h1 {
+    text-align: center;
+}
+body {  
+    background-image: url('../img/ubuntuLogo.png');
+    background-size: cover;
+    /* background-size: 1500px 1000px; */
+    background-repeat: no-repeat;
+    background-position: top right, top left;
+}
+.container {
+    margin-top: 30px;
+    /* text-align: center;
+    justify-content: center; */
+}
+
+.subtitle {
+    color: white;
+    text-decoration: none;
+}
+
+#pingForm {
+    margin-top: 40px;
+    text-align: center;
+    justify-content: center;
+}
+
+#secondForm {
+    margin-top: 40px;
+    text-align: center;
+    justify-content: center;
+}
+.add, .delete {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+li {
+    display: inline;
+    float: left;
+}
+
+.btn {
+    margin-top: 20px;
+}
