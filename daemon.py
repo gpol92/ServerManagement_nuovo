@@ -38,7 +38,7 @@ class threadLoop(threading.Thread):
                     if tipoRisposta == 'dizionario':
                         serverResponse = response.json()['risposta']
                         print(serverResponse)
-                        if serverResponse == "":
+                        if serverResponse == server.risposta:
                             response = 'Il server {} non funziona'.format(nome)
                             send_mail(
                                     'Report server',
@@ -49,15 +49,19 @@ class threadLoop(threading.Thread):
                             )
                     elif tipoRisposta == "stringa":
                         print(risposta)
-                        if response.text == "":
-                            serverResponse = "Il server {} è disattivo".format(nome)
-                            send_mail(
-                                'Report server',
-                                'Il server {} non funziona.'.format(nome),
-                                'g.polizia@athlos.biz',
-                                ['info@athlos.biz', 'gpolizia5@gmail.com'],
-                                fail_silently=False,
-                            )
+                        inizio = response.text.find(risposta)
+                        if inizio != -1:
+                            sottostringa = response.text[inizio:inizio+len(risposta)]
+                            if sottostringa == risposta:
+                                print("Server ok")
+                            else:
+                                send_mail(
+                                    'Report server',
+                                    'Il server {} non funziona.'.format(nome),
+                                    'g.polizia@athlos.biz',
+                                    ['info@athlos.biz', 'gpolizia5@gmail.com'],
+                                    fail_silently=False,
+                                )
             time.sleep(float(timer.timer)*3600)
 
 

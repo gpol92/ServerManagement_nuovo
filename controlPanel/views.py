@@ -35,7 +35,7 @@ class EmailThread(threading.Thread):
             'Report server',
             'Il server {} non funziona.'.format(self.nome),
             'g.polizia@athlos.biz',
-            ['info@athlos.biz'],
+            ['gpolizia5@gmail.com'],
             fail_silently=False,
         )
 
@@ -103,24 +103,38 @@ def ping(request):
                 tipoRisposta = server.tipoRisposta
                 response = requests.get(ip)
                 print(server.risposta)
+                # print(len(server.risposta))
+                # print(response.text)
                 risposte = server.risposta.split('#')
                 for risposta in risposte:
                     if tipoRisposta == 'dizionario':
-                        serverResponse = response.json()["risposta"]
-                        if serverResponse == server.risposta:
+                        rispostaFrase = response.text
+                        print(rispostaFrase)
+                        # rispostaJson = json.loads(response.text)
+                        # print(rispostaJson)
+                        # print(id(rispostaJson))
+                        # print(id(server.risposta))
+                        # print([ord(C) for C in rispostaJson])
+                        # print([ord(C) for C in server.risposta])
+                        # parole = rispostaJson.split(" ")
+                        # print(parole)
+                        if rispostaFrase == server.risposta:
+                            print("Server ok")
                             serverResponse = "Il server {} è OK".format(nome)
                             f.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                             serverResponse = (serverResponse, datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
                             responses.append(serverResponse)
                         else:
                             serverResponse = "Il server {} è disattivo".format(nome)
-                            f2.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
+                            f2.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n\n")
                             serverResponse = (serverResponse, datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
                             emailThread1 = EmailThread(nome)
                             emailThread1.start()
                             responses.append(serverResponse)
+                            break
                     elif tipoRisposta == 'stringa':
-                        inizio = response.text.rfind(risposta)
+                        inizio = response.text.find(risposta)
+                        print(inizio)
                         if inizio != -1:
                             sottostringa = response.text[inizio:inizio+len(risposta)]
                             print(sottostringa)
@@ -130,13 +144,14 @@ def ping(request):
                                 f.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                                 serverResponse = (serverResponse, datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
                                 responses.append(serverResponse)
-                            elif sottostringa == "":
+                            else:
                                 serverResponse = "Il server {} è disattivo".format(nome)
                                 f2.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                                 serverResponse = (serverResponse, datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
                                 emailThread1 = EmailThread(nome)
                                 emailThread1.start()
-                                responses.append(serverResponse)      
+                                responses.append(serverResponse)
+                continue
             f.write("\n") 
         sleepThread1 = sleepThread(timer)
         sleepThread1.start()
