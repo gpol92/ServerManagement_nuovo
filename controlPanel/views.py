@@ -65,9 +65,9 @@ def addServer(request):
 #view che implementa l'inserimento e aggiornamento del timer
 def inserisciTimer(request):
     submitted = False
+    currentTimer = Timer.objects.get(pk=1)
     if request.method == 'POST':
         newTimer = request.POST['timer']
-        currentTimer = Timer.objects.get(pk=1)
         currentTimer.timer = newTimer
         currentTimer.save()
         return HttpResponseRedirect('/insertTimer?submitted=True')
@@ -75,7 +75,7 @@ def inserisciTimer(request):
         form = TimerForm
         if 'submitted' in request.GET:
             submitted = True
-    return render(request, 'insertTimer.html', {'form': form, 'submitted': submitted})
+    return render(request, 'insertTimer.html', {'form': form, 'submitted': submitted, 'timer': currentTimer.timer})
 
 # view per cancellare server dal database
 
@@ -167,21 +167,23 @@ class sleepThread(threading.Thread):
 #view che implementa il download dello storico dei ping
 
 def download(request):
-    file = open('/home/walid/Scrivania/python/ServerControlPanel_senzaThreadWhile/ServerManagement-noThreadWhile/serverControl/media/Report Server.txt')
+    file = open('media/Report Server.txt')
     response = HttpResponse(file.read(), content_type='application/txt')
     response['Content-Disposition'] = 'attachment; filename=%s' % 'storico_ping.txt'
     return response
 
 # view per il download del file che registra i server non funzionanti
 def err_download(request):
-    file = open('/home/walid/Scrivania/python/ServerControlPanel_senzaThreadWhile/ServerManagement-noThreadWhile/serverControl/media/Server non funzionanti.txt')
-    response = HttpResponse(file.read(), content_type='application/txt')
-    response['Content-Disposition'] = 'attachment; filename=%s' % 'Server non funzionanti.txt'
-    return response
+    file = open('media/Server non funzionanti.txt')
+    if file:
+        response = HttpResponse(file.read(), content_type='application/txt')
+        response['Content-Disposition'] = 'attachment; filename=%s' % 'Server non funzionanti.txt'
+        return response
+    return render(request, 'ping.html')
 
 def remove_file(request):
-    if os.path.exists('/home/walid/Scrivania/python/ServerControlPanel_senzaThreadWhile/ServerManagement-noThreadWhile/serverControl/media/Server non funzionanti.txt'):
-        os.remove('/home/walid/Scrivania/python/ServerControlPanel_senzaThreadWhile/ServerManagement-noThreadWhile/serverControl/media/Server non funzionanti.txt')
+    if os.path.exists('media/Server non funzionanti.txt'):
+        os.remove('media/Server non funzionanti.txt')
     else:
         return render(request, 'ping.html')
     return render(request, 'ping.html')

@@ -36,9 +36,8 @@ class threadLoop(threading.Thread):
                 risposte = server.risposta.split('#')
                 for risposta in risposte:
                     if tipoRisposta == 'dizionario':
-                        serverResponse = response.json()['risposta']
-                        print(serverResponse)
-                        if serverResponse == server.risposta:
+                        print(response.text)
+                        if response.text == server.risposta:
                             response = 'Il server {} non funziona'.format(nome)
                             send_mail(
                                     'Report server',
