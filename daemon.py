@@ -28,7 +28,7 @@ class threadLoop(threading.Thread):
         threading.Thread.__init__(self)
     
     def run(self):
-        fileStoricoPing = open('media/Report Server.txt', 'a')
+        fileStoricoPing = open('media/ReportServer.txt', 'a')
         while True:
             for i in range(len(servers)):
                 server = servers[i]

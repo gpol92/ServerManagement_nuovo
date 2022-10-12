@@ -95,7 +95,7 @@ def ping(request):
     responses = []
     timer = Timer.objects.get(id=1)
     timer = timer.timer
-    f = open('media/Report Server.txt', 'a')
+    f = open('media/ReportServer.txt', 'a')
     f2 = open('media/Server non funzionanti.txt', 'a')
     while True:
         if request.method == 'POST':
@@ -170,8 +170,8 @@ class sleepThread(threading.Thread):
 #view che implementa il download dello storico dei ping
 
 def download(request):
-    if os.path.exists('media/Report Server.txt'):
-        file = open('media/Report Server.txt')
+    if os.path.exists('media/ReportServer.txt'):
+        file = open('media/ReportServer.txt')
         response = HttpResponse(file.read(), content_type='application/txt')
         response['Content-Disposition'] = 'attachment; filename=%s' % 'storico_ping.txt'
         return response
@@ -189,7 +189,7 @@ def err_download(request):
 def remove_file(request):
     if os.path.exists('media/Server non funzionanti.txt'):
         os.remove('media/Server non funzionanti.txt')
-        os.remove('media/Report Server.txt')
+        os.remove('media/ReportServer.txt')
     else:
         return render(request, 'ping.html')
     return render(request, 'ping.html')
