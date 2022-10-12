@@ -18,5 +18,3 @@ $(".dump").on("click", function() {
     xhttp.send();
 });
 
-const timerValue = document.querySelector('#timer');
-console.log(timerValue)

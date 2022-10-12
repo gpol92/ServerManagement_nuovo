@@ -23,6 +23,7 @@
             </div>   
         </nav>
     </form>
+    <p style="text-align: center; color: white;"> Timer attuale: {{ timer }} minuti </p>
     <div class="container">
         <a href="{% url 'add-server' %}" class="material-symbols-outlined add">
             add
@@ -38,6 +39,7 @@
             <span style="color: white;">{{ server.ip }} - {{ server.nome }}</span>
         </div>
         {% endfor %}    
+        
         <a style="text-align: center;" href="{% url 'homepage' %}" class="btn btn-primary">HOMEPAGE</a>  
     </div>
 </body>

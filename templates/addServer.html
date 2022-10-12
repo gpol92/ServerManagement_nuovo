@@ -22,13 +22,11 @@
         
             {{ form.as_p}}
 
-        
             <input type="submit" value="Submit" class="btn btn-secondary">
-        
         </form>
     {% endif %}
 
-    <a style="margin-top: 20px" class="btn btn-success" href="{% url 'insertTimer' %}">Inserisci timer</a>
+    <a style="margin-top: 20px" class="btn btn-success" href="{% url 'insertTimer' %}">Inserisci timer in minuti</a>
     <a style="margin-top: 20px;" href="{% url 'homepage' %}" type="button" class="btn btn-primary">Homepage</a>
 </body>
 </html>

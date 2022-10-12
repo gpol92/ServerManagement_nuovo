@@ -19,8 +19,8 @@ class ServerForm(ModelForm):
             'ip': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Server Ip'}),
             'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome Server'}),
             'domanda': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Domanda'}),
-            'risposta': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Risposta'}),
-            'tipoRisposta': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'TipoRisposta'}),
+            'risposta': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Risposta (Inserire la lista di risposte separate da cancelletto)'}),
+            'tipoRisposta': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'TipoRisposta (inserire stringa o dizionario)'}),
         }
 
 class TimerForm(ModelForm):
@@ -29,9 +29,10 @@ class TimerForm(ModelForm):
         fields = ('timer',)
 
         labels = {
-            'timer': ''
+            'timer': '',
         }
 
         widgets = {
-            'timer': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Timer'}),
+            'timer': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Timer in minuti'}),
         }
+

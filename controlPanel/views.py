@@ -45,7 +45,9 @@ def homepage(request):
 # view per renderizzare nella pagina il contenuto del database dei server
 def controlPanelPage(request):
     servers = Server.objects.all()
-    context = {"servers": servers}
+    timer = Timer.objects.get(pk=1)
+    timerAttuale = timer.timer
+    context = {"servers": servers, 'timer': timerAttuale}
     return render(request, 'controlPanelPage.html', context)
 
 # view per l'aggiunta dei server al db
@@ -76,6 +78,7 @@ def inserisciTimer(request):
         if 'submitted' in request.GET:
             submitted = True
     return render(request, 'insertTimer.html', {'form': form, 'submitted': submitted, 'timer': currentTimer.timer})
+
 
 # view per cancellare server dal database
 
@@ -108,17 +111,17 @@ def ping(request):
                 risposte = server.risposta.split('#')
                 for risposta in risposte:
                     if tipoRisposta == 'dizionario':
-                        rispostaFrase = response.text
-                        print(rispostaFrase)
-                        # rispostaJson = json.loads(response.text)
-                        # print(rispostaJson)
+                        # rispostaFrase = response.text
+                        # print(rispostaFrase)
+                        rispostaJson = response.json()
+                        print(rispostaJson)
                         # print(id(rispostaJson))
                         # print(id(server.risposta))
                         # print([ord(C) for C in rispostaJson])
                         # print([ord(C) for C in server.risposta])
                         # parole = rispostaJson.split(" ")
                         # print(parole)
-                        if rispostaFrase == server.risposta:
+                        if rispostaJson['risposta'] == server.risposta:
                             print("Server ok")
                             serverResponse = "Il server {} è OK".format(nome)
                             f.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
@@ -157,25 +160,27 @@ def ping(request):
         sleepThread1.start()
         return render(request, 'ping.html', {'risposte': responses})
 
+
 class sleepThread(threading.Thread):
     def __init__(self, timer):
         self.timer = timer
         threading.Thread.__init__(self)
     def run(self):
-        sleep(float(self.timer)*3600)
-
+        sleep(float(self.timer)*60)
 #view che implementa il download dello storico dei ping
 
 def download(request):
-    file = open('media/Report Server.txt')
-    response = HttpResponse(file.read(), content_type='application/txt')
-    response['Content-Disposition'] = 'attachment; filename=%s' % 'storico_ping.txt'
-    return response
+    if os.path.exists('media/Report Server.txt'):
+        file = open('media/Report Server.txt')
+        response = HttpResponse(file.read(), content_type='application/txt')
+        response['Content-Disposition'] = 'attachment; filename=%s' % 'storico_ping.txt'
+        return response
+    return render(request, 'ping.html')
 
 # view per il download del file che registra i server non funzionanti
 def err_download(request):
-    file = open('media/Server non funzionanti.txt')
-    if file:
+    if os.path.exists('media/Server non funzionanti.txt'):
+        file = open('media/Server non funzionanti.txt')
         response = HttpResponse(file.read(), content_type='application/txt')
         response['Content-Disposition'] = 'attachment; filename=%s' % 'Server non funzionanti.txt'
         return response
@@ -184,6 +189,7 @@ def err_download(request):
 def remove_file(request):
     if os.path.exists('media/Server non funzionanti.txt'):
         os.remove('media/Server non funzionanti.txt')
+        os.remove('media/Report Server.txt')
     else:
         return render(request, 'ping.html')
     return render(request, 'ping.html')

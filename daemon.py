@@ -33,19 +33,20 @@ class threadLoop(threading.Thread):
                 nome = server.nome
                 tipoRisposta = server.tipoRisposta
                 response = requests.get(ip)
+                print(response)
                 risposte = server.risposta.split('#')
                 for risposta in risposte:
                     if tipoRisposta == 'dizionario':
-                        print(response.text)
-                        if response.text == server.risposta:
+                        if response != server.risposta:
                             response = 'Il server {} non funziona'.format(nome)
                             send_mail(
                                     'Report server',
                                     'Il server {} non funziona.'.format(nome),
                                     'g.polizia@athlos.biz',
-                                    ['info@athlos.biz', 'gpolizia5@gmail.com'],
+                                    ['gpolizia5@gmail.com'],
                                     fail_silently=False,
                             )
+                            break
                     elif tipoRisposta == "stringa":
                         print(risposta)
                         inizio = response.text.find(risposta)
@@ -58,10 +59,10 @@ class threadLoop(threading.Thread):
                                     'Report server',
                                     'Il server {} non funziona.'.format(nome),
                                     'g.polizia@athlos.biz',
-                                    ['info@athlos.biz', 'gpolizia5@gmail.com'],
+                                    ['gpolizia5@gmail.com'],
                                     fail_silently=False,
                                 )
-            time.sleep(float(timer.timer)*3600)
+            time.sleep(float(timer.timer)*60)
 
 
 def modificaTimer():
@@ -85,7 +86,7 @@ def modificaTimer():
 root = Tk()
 root.geometry("700x700")
 
-label1 = Label(root, text="Inserisci il timer in ore")
+label1 = Label(root, text="Inserisci il timer in minuti")
 label1.place(relx=0.5, rely=0.18, anchor="center")
 entry1 = Entry(root, width=50)
 entry1.place(relx=0.5, rely=0.2, anchor="center")

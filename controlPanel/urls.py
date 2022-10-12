@@ -10,7 +10,7 @@ urlpatterns = [
     path('deleteServer/<server_id>', deleteServer, name='delete-server'),
     # aggiunta di un server
     path('addServer', addServer, name='add-server'),
-    #ping
+    #ping in ore
     path('ping', ping, name='ping'),
     #download del file con lo storico dei ping
     path('download_txt', download, name='download_txt'),
