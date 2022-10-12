@@ -43,30 +43,6 @@
 
     {% block javascript %}
         <script src="{% static 'js/script.js' %}"></script>
-        <script>
-            $(function () {
-            $.get('serverControl/media/Report Server.txt', function(data) {
-                //If the returned data is not empty or whitespace
-                if (data) {
-                    // split the string into several strings when a new line occures
-                    var lines = data.split('\n'); // Take note of the \n This is the new line character also known as a line ending, end of line (EOL), or line break.
-                    // If there are more than 0 lines
-                    if (lines.length > 0) {
-                        // For every line console.log out what the line is with the line number prepended.
-                        var $content = $('#risultatoPing'); //grab the content area
-                        for (var i = 0; i < lines.length; i++) {
-                            console.log(i + ": " + lines[i]);
-                            $content.html($content.html() + "\n" + i + ": " + lines[i]); //insert a new line into the content area
-                        }
-                    }
-                } else {
-                    // It is empty, do somethin else
-                    alert('no data present in txt file.');
-                }
-            });
-        });
-    </script>
-        </script>
     {% endblock %}
         
 </body>
