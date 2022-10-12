@@ -1,14 +1,77 @@
-Il server monserrato è OK 10/12/2022, 07:57:50
-Il server camcom è OK 10/12/2022, 07:57:51
-Il server sarroch è OK 10/12/2022, 07:57:54
-Il server demo avatar vm026 è OK 10/12/2022, 07:58:03
-Il server Athlos è OK 10/12/2022, 07:58:09
-Il server sistema appuntamenti è OK 10/12/2022, 07:58:11
+Il server monserrato è ok 10/12/2022, 14:02:49
+Il server camcom è ok 10/12/2022, 14:02:50
+Il server sarroch è ok 10/12/2022, 14:02:56
+Il server demo avatar vm026 è ok 10/12/2022, 14:03:03
+Il server Athlos non funziona 10/12/2022, 14:03:08
+Il server sistema appuntamenti è ok 10/12/2022, 14:03:09
+Il server monserrato è ok 10/12/2022, 14:04:08
+Il server camcom è ok 10/12/2022, 14:04:08
+Il server sarroch è ok 10/12/2022, 14:04:11
+Il server demo avatar vm026 è ok 10/12/2022, 14:04:14
+Il server Athlos non funziona 10/12/2022, 14:04:16
+Il server sistema appuntamenti è ok 10/12/2022, 14:04:17
+Il server monserrato è ok 10/12/2022, 14:08:19
+Il server camcom è ok 10/12/2022, 14:08:20
+Il server sarroch è ok 10/12/2022, 14:08:23
+Il server demo avatar vm026 è ok 10/12/2022, 14:08:26
+Il server Athlos non funziona 10/12/2022, 14:08:28
+Il server sistema appuntamenti è ok 10/12/2022, 14:08:29
+Il server monserrato è ok 10/12/2022, 14:10:22
+Il server camcom è ok 10/12/2022, 14:10:24
+Il server sarroch è ok 10/12/2022, 14:10:27
+Il server demo avatar vm026 è ok 10/12/2022, 14:10:30
+Il server Athlos è ok 10/12/2022, 14:10:31
+Il server sistema appuntamenti è ok 10/12/2022, 14:10:32
+Il server monserrato è ok 10/12/2022, 14:12:06
+Il server camcom è ok 10/12/2022, 14:12:07
+Il server sarroch è ok 10/12/2022, 14:12:10
+Il server demo avatar vm026 è ok 10/12/2022, 14:12:13
+Il server Athlos è ok 10/12/2022, 14:12:14
+Il server sistema appuntamenti è ok 10/12/2022, 14:12:15
+Il server monserrato è ok 10/12/2022, 14:16:17
+Il server camcom è ok 10/12/2022, 14:16:18
+Il server sarroch è ok 10/12/2022, 14:16:21
+Il server demo avatar vm026 è ok 10/12/2022, 14:16:24
+Il server Athlos è ok 10/12/2022, 14:16:26
+Il server sistema appuntamenti è ok 10/12/2022, 14:16:27
+Il server monserrato è ok 10/12/2022, 14:20:29
+Il server camcom è ok 10/12/2022, 14:20:30
+Il server sarroch è ok 10/12/2022, 14:20:33
+Il server demo avatar vm026 è ok 10/12/2022, 14:20:36
+Il server Athlos è ok 10/12/2022, 14:20:38
+Il server sistema appuntamenti è ok 10/12/2022, 14:20:38
+Il server monserrato è OK 10/12/2022, 14:22:28
+Il server camcom è OK 10/12/2022, 14:22:29
+Il server sarroch è OK 10/12/2022, 14:22:32
+Il server demo avatar vm026 è OK 10/12/2022, 14:22:35
+Il server Athlos è OK 10/12/2022, 14:22:37
+Il server sistema appuntamenti è OK 10/12/2022, 14:22:38
 
-Il server monserrato è OK 10/12/2022, 09:29:55
-Il server camcom è OK 10/12/2022, 09:29:56
-Il server sarroch è OK 10/12/2022, 09:29:59
-Il server demo avatar vm026 è OK 10/12/2022, 09:30:02
-Il server Athlos è OK 10/12/2022, 09:30:04
-Il server sistema appuntamenti è OK 10/12/2022, 09:30:05
+Il server monserrato è OK 10/12/2022, 14:32:01
+Il server camcom è OK 10/12/2022, 14:32:02
+Il server sarroch è OK 10/12/2022, 14:32:04
+Il server demo avatar vm026 è OK 10/12/2022, 14:32:07
+Il server Athlos è OK 10/12/2022, 14:32:09
+Il server sistema appuntamenti è OK 10/12/2022, 14:32:10
+
+Il server monserrato è OK 10/12/2022, 14:47:55
+Il server camcom è OK 10/12/2022, 14:47:56
+Il server sarroch è OK 10/12/2022, 14:47:59
+Il server demo avatar vm026 è OK 10/12/2022, 14:48:02
+Il server Athlos è OK 10/12/2022, 14:48:03
+Il server sistema appuntamenti è OK 10/12/2022, 14:48:04
+
+Il server monserrato è OK 10/12/2022, 14:48:51
+Il server camcom è OK 10/12/2022, 14:48:52
+Il server sarroch è OK 10/12/2022, 14:48:55
+Il server demo avatar vm026 è OK 10/12/2022, 14:48:58
+Il server Athlos è OK 10/12/2022, 14:49:00
+Il server sistema appuntamenti è OK 10/12/2022, 14:49:00
+
+Il server monserrato è OK 10/12/2022, 14:53:26
+Il server camcom è OK 10/12/2022, 14:53:27
+Il server sarroch è OK 10/12/2022, 14:53:30
+Il server demo avatar vm026 è OK 10/12/2022, 14:53:33
+Il server Athlos è OK 10/12/2022, 14:53:35
+Il server sistema appuntamenti è OK 10/12/2022, 14:53:36
 

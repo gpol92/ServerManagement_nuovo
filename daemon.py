@@ -5,6 +5,7 @@ import django
 import time
 from django.core.mail import send_mail
 import sqlite3
+from datetime import datetime
 from tkinter import *
 
 print(django.__version__)
@@ -19,6 +20,7 @@ django.setup()
 from controlPanel.models import Server
 from controlPanel.models import Timer
 
+
 class threadLoop(threading.Thread):
     def __init__(self, timer, servers):
         self.timer = timer
@@ -26,6 +28,7 @@ class threadLoop(threading.Thread):
         threading.Thread.__init__(self)
     
     def run(self):
+        fileStoricoPing = open('media/Report Server.txt', 'a')
         while True:
             for i in range(len(servers)):
                 server = servers[i]
@@ -33,12 +36,12 @@ class threadLoop(threading.Thread):
                 nome = server.nome
                 tipoRisposta = server.tipoRisposta
                 response = requests.get(ip)
-                print(response)
                 risposte = server.risposta.split('#')
                 for risposta in risposte:
                     if tipoRisposta == 'dizionario':
-                        if response != server.risposta:
-                            response = 'Il server {} non funziona'.format(nome)
+                        if response.json()['risposta'] != server.risposta:
+                            serverResponse = 'Il server {} non funziona'.format(nome)
+                            fileStoricoPing.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                             send_mail(
                                     'Report server',
                                     'Il server {} non funziona.'.format(nome),
@@ -47,6 +50,10 @@ class threadLoop(threading.Thread):
                                     fail_silently=False,
                             )
                             break
+                        else:
+                            print("Server ok")
+                            serverResponse = 'Il server {} è ok'.format(nome)
+                            fileStoricoPing.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                     elif tipoRisposta == "stringa":
                         print(risposta)
                         inizio = response.text.find(risposta)
@@ -54,6 +61,8 @@ class threadLoop(threading.Thread):
                             sottostringa = response.text[inizio:inizio+len(risposta)]
                             if sottostringa == risposta:
                                 print("Server ok")
+                                serverResponse = "Il server {} è ok".format(nome)
+                                fileStoricoPing.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                             else:
                                 send_mail(
                                     'Report server',
@@ -62,6 +71,7 @@ class threadLoop(threading.Thread):
                                     ['gpolizia5@gmail.com'],
                                     fail_silently=False,
                                 )
+            fileStoricoPing.write("\n")
             time.sleep(float(timer.timer)*60)
 
 
