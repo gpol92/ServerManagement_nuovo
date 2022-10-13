@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import homepage, controlPanelPage, deleteServer, addServer, ping, download, inserisciTimer, err_download, remove_file
+from .views import homepage, controlPanelPage, deleteServer, addServer, ping, storicoPing, download, inserisciTimer, err_download, remove_file
 urlpatterns = [
     #view homepage
     path('', homepage, name='homepage'),
@@ -12,6 +12,8 @@ urlpatterns = [
     path('addServer', addServer, name='add-server'),
     #ping in ore
     path('ping', ping, name='ping'),
+    # visualizzazione storico ping da file .txt
+    path('storicoPing', storicoPing, name='storicoPing'),
     #download del file con lo storico dei ping
     path('download_txt', download, name='download_txt'),
     # inserimento del timer

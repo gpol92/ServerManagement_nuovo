@@ -11,7 +11,7 @@ from wsgiref.util import FileWrapper
 import os
 import json
 from django.views.generic import TemplateView
-import asyncio
+import shutil
 
 # Create your views here.
 
@@ -168,6 +168,16 @@ class sleepThread(threading.Thread):
     def run(self):
         sleep(float(self.timer)*60)
 #view che implementa il download dello storico dei ping
+
+def storicoPing(request):
+    source = 'media/ReportServer.txt'
+    destination = 'templates/ReportServer.txt'
+    dest = shutil.copyfile(source, destination)
+    # contents = open('templates/ReportServer.txt', 'r')
+    # with open('ServerManagement-noThreadWhile/serverControl/templates/storico.html') as storico:
+    #     for lines in contents.readlines():
+    #         storico.write("<pre>" + lines + "</pre> <br>\n")
+    return render(request, 'storico.html')
 
 def download(request):
     if os.path.exists('media/ReportServer.txt'):
