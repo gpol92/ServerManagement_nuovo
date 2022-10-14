@@ -11,7 +11,7 @@
     <title>Check</title>
 </head>
 <body>
-    
+
     <form method="POST">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="collapse navbar-collapse">
@@ -21,21 +21,23 @@
                     <li><a href="{% url 'ping' %}" class="navbar-brand subtitle" type="submit">Check</a></li>
                     <li><a href="{% url 'storicoPing' %}" class="navbar-brand subititle" type="submit">Storico e tempo reale</a></li>
                 </ul>
-            </div>   
+            </div>
         </nav>
     </form>
     <div class="loader">
         <form action="{% url 'ping' %}" method="POST" id="pingForm">
             {% csrf_token %}
             <input href="{% url 'ping' %}" type="submit" id="startPing" value="Avvia ping" class="btn btn-success">
-            <a id="homepage" href="{% url 'homepage' %}" class="btn btn-primary">HOMEPAGE</a> 
+            <a id="homepage" href="{% url 'homepage' %}" class="btn btn-primary">HOMEPAGE</a>
             <input type="button" value="Scarica storico ping" class="btn btn-primary" onclick="window.open('download_txt')">
             <input type="button" value="Storico server non funzionanti" class="btn btn-primary" onclick="window.open('err_download')">
             <input type="button" value="Cancella file" class="btn btn-danger" onclick="window.open('cancella_storico')">
         </form>
-        
+
     </div>
-    
+
+    <div class="container"></div>
+
 
     {% for risposta in risposte %}
             <span style = "display: block; color: white; font-weight: bolder;">{{ risposta }}</span>
@@ -45,7 +47,8 @@
 
     {% block javascript %}
         <script src="{% static 'js/script.js' %}"></script>
-    {% endblock %}
         
+    {% endblock %}
+
 </body>
 </html>

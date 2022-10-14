@@ -170,14 +170,15 @@ class sleepThread(threading.Thread):
 #view che implementa il download dello storico dei ping
 
 def storicoPing(request):
-    source = 'media/ReportServer.txt'
-    destination = 'templates/ReportServer.txt'
-    dest = shutil.copyfile(source, destination)
-    # contents = open('templates/ReportServer.txt', 'r')
-    # with open('ServerManagement-noThreadWhile/serverControl/templates/storico.html') as storico:
+    # source = 'media/ReportServer.txt'
+    # destination = 'templates/ReportServer.txt'
+    # dest = shutil.copyfile(source, destination)
+    # contents = open('media/ReportServer.txt', 'r')
+    # with open('templates/storico.html', 'w') as storico:
     #     for lines in contents.readlines():
     #         storico.write("<pre>" + lines + "</pre> <br>\n")
-    return render(request, 'storico.html')
+    # return render(request, 'storico.html')
+    return render(request, 'test.html')
 
 def download(request):
     if os.path.exists('media/ReportServer.txt'):

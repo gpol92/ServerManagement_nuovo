@@ -29,6 +29,12 @@ class threadLoop(threading.Thread):
     
     def run(self):
         fileStoricoPing = open('media/ReportServer.txt', 'a')
+        fileHtml = open('templates/test.html', 'a')
+        htmlContent = '''
+<html>
+    <body>
+'''
+        fileHtml.write(htmlContent)
         while True:
             for i in range(len(servers)):
                 server = servers[i]
@@ -53,7 +59,11 @@ class threadLoop(threading.Thread):
                         else:
                             print("Server ok")
                             serverResponse = 'Il server {} è ok'.format(nome)
+                            htmlContent = '''
+            <p style="color: white;">{}</p>
+                            '''.format(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                             fileStoricoPing.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
+                            fileHtml.write(htmlContent)
                     elif tipoRisposta == "stringa":
                         print(risposta)
                         inizio = response.text.find(risposta)
@@ -62,7 +72,11 @@ class threadLoop(threading.Thread):
                             if sottostringa == risposta:
                                 print("Server ok")
                                 serverResponse = "Il server {} è ok".format(nome)
+                                htmlContent = '''
+            <p style="color: white;">{}</p>
+                                '''.format(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                                 fileStoricoPing.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
+                                fileHtml.write(htmlContent)
                             else:
                                 send_mail(
                                     'Report server',
@@ -72,8 +86,15 @@ class threadLoop(threading.Thread):
                                     fail_silently=False,
                                 )
             fileStoricoPing.write("\n")
+            fileStoricoPing.flush()
+            htmlContent = '''
+            <br>
+    </body>
+<html>
+            '''
+            fileHtml.write(htmlContent)
+            fileHtml.flush()
             time.sleep(float(timer.timer)*60)
-
 
 def modificaTimer():
     timer = entry1.get()
