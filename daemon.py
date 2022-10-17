@@ -3,14 +3,14 @@ import os
 import django
 import time
 from django.core.mail import send_mail
-import sqlite3
+import pytz
 from datetime import datetime
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'serverControl.settings')
 django.setup()
 from controlPanel.models import Server, Timer
 
 def main():
+    timezone = pytz.timezone('Europe/Rome')
     servers = Server.objects.all()
     timer = Timer.objects.get(id = 1)
     fileStoricoPing = open('media/ReportServer.txt', 'a')
@@ -32,7 +32,7 @@ def main():
                 if tipoRisposta == 'dizionario':
                     if response.json()['risposta'] != server.risposta:
                         serverResponse = 'Il server {} non funziona'.format(nome)
-                        fileStoricoPing.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
+                        fileStoricoPing.write(serverResponse + " " + datetime.now(tz=timezone).strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                         send_mail(
                                 'Report server',
                                 'Il server {} non funziona.'.format(nome),
@@ -46,8 +46,8 @@ def main():
                         serverResponse = 'Il server {} è ok'.format(nome)
                         htmlContent = '''
             <p style="text-align: center;">{}</p>
-                        '''.format(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
-                        fileStoricoPing.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
+                        '''.format(serverResponse + " " + datetime.now(tz=timezone).strftime("%m/%d/%Y, %H:%M:%S") + "\n")
+                        fileStoricoPing.write(serverResponse + " " + datetime.now(tz=timezone).strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                         fileHtml.write(htmlContent)
                 elif tipoRisposta == "stringa":
                     print(risposta)
@@ -59,8 +59,8 @@ def main():
                             serverResponse = "Il server {} è ok".format(nome)
                             htmlContent = '''
             <p style="text-align: center;">{}</p>
-                            '''.format(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
-                            fileStoricoPing.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
+                            '''.format(serverResponse + " " + datetime.now(tz=timezone).strftime("%m/%d/%Y, %H:%M:%S") + "\n")
+                            fileStoricoPing.write(serverResponse + " " + datetime.now(tz=timezone).strftime("%m/%d/%Y, %H:%M:%S") + "\n")
                             fileHtml.write(htmlContent)
                         else:
                             send_mail(
