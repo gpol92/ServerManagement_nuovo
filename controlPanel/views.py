@@ -16,12 +16,8 @@ import shutil
 # Create your views here.
 
 
-# porzione di codice per gestire il timer nel ciclo while nella view ping
-continue_looping = True
-def stopper():
-    global continue_looping
-    continue_looping = False
 
+#Thread per gestire l'invio della mail in caso di server non funzionante
 class EmailThread(threading.Thread):
 
     def __init__(self, nome):
@@ -30,12 +26,12 @@ class EmailThread(threading.Thread):
 
     def run(self):
         
-        print("ThreadingExecution started")
+        print("Un server non funziona. Invio mail di segnalazione")
         send_mail(
             'Report server',
             'Il server {} non funziona.'.format(self.nome),
             'g.polizia@athlos.biz',
-            ['gpolizia5@gmail.com'],
+            ['info@athlos.biz'],
             fail_silently=False,
         )
 
