@@ -1,7 +1,7 @@
-Il server demo avatar vm026 è ok 10/20/2022, 11:51:25
-Il server Athlos è ok 10/20/2022, 11:51:27
-Il server sistema appuntamenti è ok 10/20/2022, 11:51:27
-Il server monserrato è ok 10/20/2022, 11:51:29
-Il server camcom è ok 10/20/2022, 11:51:30
-Il server sarroch è ok 10/20/2022, 11:51:33
+Il server demo avatar vm026 è ok 10/20/2022, 12:22:25
+Il server Athlos è ok 10/20/2022, 12:22:26
+Il server sistema appuntamenti è ok 10/20/2022, 12:22:27
+Il server monserrato è ok 10/20/2022, 12:22:29
+Il server camcom è ok 10/20/2022, 12:22:29
+Il server sarroch è ok 10/20/2022, 12:22:32
 
