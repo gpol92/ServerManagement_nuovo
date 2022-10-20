@@ -10,6 +10,7 @@ import threading
 from wsgiref.util import FileWrapper
 import os
 import json
+import pytz
 from django.views.generic import TemplateView
 import shutil
 
@@ -31,7 +32,8 @@ class EmailThread(threading.Thread):
             'Report server',
             'Il server {} non funziona.'.format(self.nome),
             'g.polizia@athlos.biz',
-            ['info@athlos.biz'],
+            #['info@athlos.biz'],
+            ['gpolizia5@gmail.com'],
             fail_silently=False,
         )
 
@@ -87,13 +89,14 @@ def deleteServer(request, server_id):
 # La view salva in un file di testo un messaggio sullo stato dei server.
 
 def ping(request):
+    timezone = pytz.timezone('Europe/Rome')
     servers = Server.objects.all() 
     responses = []
     timer = Timer.objects.get(id=1)
     timer = timer.timer
-    f = open('media/ReportServer.txt', 'a')
-    f2 = open('media/Server non funzionanti.txt', 'a')
     while True:
+        f = open('media/ReportServer.txt', 'w')
+        f2 = open('media/Server non funzionanti.txt', 'w')
         if request.method == 'POST':
             for i in range(len(servers)):
                 server = servers[i]
@@ -101,57 +104,40 @@ def ping(request):
                 nome = server.nome
                 tipoRisposta = server.tipoRisposta
                 response = requests.get(ip)
-                print(server.risposta)
-                # print(len(server.risposta))
-                # print(response.text)
-                risposte = server.risposta.split('#')
-                for risposta in risposte:
-                    if tipoRisposta == 'dizionario':
-                        # rispostaFrase = response.text
-                        # print(rispostaFrase)
-                        rispostaJson = response.json()
-                        print(rispostaJson)
-                        # print(id(rispostaJson))
-                        # print(id(server.risposta))
-                        # print([ord(C) for C in rispostaJson])
-                        # print([ord(C) for C in server.risposta])
-                        # parole = rispostaJson.split(" ")
-                        # print(parole)
-                        if rispostaJson['risposta'] == server.risposta:
-                            print("Server ok")
-                            serverResponse = "Il server {} è OK".format(nome)
-                            f.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
-                            serverResponse = (serverResponse, datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+                risposte = server.risposta.split("#")
+                if tipoRisposta == 'stringa':
+                    if response.text.strip() in risposte:
+                        print("Server {} Ok".format(nome))
+                        serverResponse = "Il server {} è ok".format(nome) + " " + datetime.now(tz=timezone).strftime("%m/%d/%Y, %H:%M:%S") + "\n"        
+                        f.write(serverResponse)
+                        responses.append(serverResponse)      
+                    else:
+                        print("Il server {} non funziona".format(nome))
+                        serverResponse = "Il server {} non funziona".format(nome) + " " + datetime.now(tz=timezone).strftime("%m/%d/%Y, %H:%M:%S") + "\n"
+                        f2.write(serverResponse)
+                        emailThread1 = EmailThread(nome)
+                        emailThread1.start() 
+                        responses.append(serverResponse)
+                if tipoRisposta == 'dizionario':
+                    print(response.text)
+                    if response.text.strip() != "":
+                        if response.json()['risposta'] in server.risposta:
+                            print('Server {} Ok'.format(nome))
+                            serverResponse = "Il server {} è ok".format(nome) + " " + datetime.now(tz=timezone).strftime("%m/%d/%Y, %H:%M:%S") + "\n"
+                            f.write(serverResponse)
                             responses.append(serverResponse)
-                        else:
-                            serverResponse = "Il server {} è disattivo".format(nome)
-                            f2.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n\n")
-                            serverResponse = (serverResponse, datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-                            emailThread1 = EmailThread(nome)
-                            emailThread1.start()
-                            responses.append(serverResponse)
-                            break
-                    elif tipoRisposta == 'stringa':
-                        inizio = response.text.find(risposta)
-                        print(inizio)
-                        if inizio != -1:
-                            sottostringa = response.text[inizio:inizio+len(risposta)]
-                            print(sottostringa)
-                            if sottostringa == risposta:
-                                print("Server ok")
-                                serverResponse = "Il server {} è OK".format(nome)
-                                f.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
-                                serverResponse = (serverResponse, datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-                                responses.append(serverResponse)
-                            else:
-                                serverResponse = "Il server {} è disattivo".format(nome)
-                                f2.write(serverResponse + " " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n")
-                                serverResponse = (serverResponse, datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-                                emailThread1 = EmailThread(nome)
-                                emailThread1.start()
-                                responses.append(serverResponse)
-                continue
-            f.write("\n") 
+                    else: 
+                        print('Il server {} non funziona'.format(nome))
+                        serverResponse = "Il server {} non funziona".format(nome) + " " + datetime.now(tz=timezone).strftime("%m/%d/%Y, %H:%M:%S") + "\n" 
+                        f2.write(serverResponse)
+                        emailThread1 = EmailThread(nome)
+                        emailThread1.start() 
+                        responses.append(serverResponse) 
+            f.write("\n")
+        f.flush()
+        f2.flush()
+        f.close()
+        f2.close()
         sleepThread1 = sleepThread(timer)
         sleepThread1.start()
         return render(request, 'ping.html', {'risposte': responses})
@@ -197,6 +183,7 @@ def remove_file(request):
     if os.path.exists('media/Server non funzionanti.txt'):
         os.remove('media/Server non funzionanti.txt')
         os.remove('media/ReportServer.txt')
+        
     else:
         return render(request, 'ping.html')
     return render(request, 'ping.html')
