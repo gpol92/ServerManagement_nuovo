@@ -16,8 +16,6 @@ import shutil
 
 # Create your views here.
 
-
-
 #Thread per gestire l'invio della mail in caso di server non funzionante
 class EmailThread(threading.Thread):
 
@@ -41,12 +39,12 @@ def homepage(request):
     return render(request, 'homepage.html')
 
 # view per renderizzare nella pagina il contenuto del database dei server
-def controlPanelPage(request):
+def config(request):
     servers = Server.objects.all()
     timer = Timer.objects.get(pk=1)
     timerAttuale = timer.timer
     context = {"servers": servers, 'timer': timerAttuale}
-    return render(request, 'controlPanelPage.html', context)
+    return render(request, 'config.html', context)
 
 # view per l'aggiunta dei server al db
 def addServer(request):
@@ -83,7 +81,7 @@ def inserisciTimer(request):
 def deleteServer(request, server_id):
     server = Server.objects.get(pk=server_id)
     server.delete()
-    return redirect('controlPanelPage')
+    return redirect('config')
 
 # view che effettua ciclicamente il ping di tutti i server presenti nel database. La view utilizza un timer salvato in una tabella del database.
 # La view salva in un file di testo un messaggio sullo stato dei server.

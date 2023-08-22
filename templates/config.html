@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a class="navbar-brand" href="{% url 'homepage' %} ">Home</a></li>
-                    <li><a class="navbar-brand subtitle" href="{% url 'controlPanelPage' %}" type="submit">Config</a></li>
+                    <li><a class="navbar-brand subtitle" href="{% url 'config' %}" type="submit">Config</a></li>
                     <li><a class="navbar-brand subtitle" href="{% url 'ping' %}" type="submit">Check</a></li>
                     <li><a href="{% url 'storicoPing' %}" class="navbar-brand subititle" type="submit">Storico e tempo reale</a></li>
                 </ul>
@@ -37,7 +37,7 @@
             <a href="{% url 'delete-server' server.id %}" onclick="return confirm('Vuoi davvero cancellare il server selezionato?')" class="material-symbols-outlined delete">
                 delete
             </a>
-            <span style="color: white;">{{ server.ip }} - {{ server.nome }}</span>
+            <span style="color: black;">{{ server.ip }} - {{ server.nome }}</span>
         </div>
         {% endfor %}    
         
