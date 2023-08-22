@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.shortcuts import render, redirect
 from .models import Server, Timer
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
@@ -12,6 +13,7 @@ import os
 import json
 import pytz
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 import shutil
 
 # Create your views here.
@@ -35,30 +37,53 @@ class EmailThread(threading.Thread):
             fail_silently=False,
         )
 
-def homepage(request):
-    return render(request, 'homepage.html')
+class HomepageView(TemplateView):
+    template_name = 'homepage.html'
+# def homepage(request):
+#     return render(request, 'homepage.html')
 
 # view per renderizzare nella pagina il contenuto del database dei server
-def config(request):
-    servers = Server.objects.all()
-    timer = Timer.objects.get(pk=1)
-    timerAttuale = timer.timer
-    context = {"servers": servers, 'timer': timerAttuale}
-    return render(request, 'config.html', context)
+class ConfigView(TemplateView):
+    template_name = 'config.html'
+    def get_context_data(self, **kwargs):
+        servers = Server.objects.all()
+        timer = Timer.objects.get(pk=1)
+        timerAttuale = timer.timer
+        context = super().get_context_data(**kwargs)
+        context['servers'] = servers
+        context['timer'] = timerAttuale
+        return context
+
+# def config(request):
+#     servers = Server.objects.all()
+#     timer = Timer.objects.get(pk=1)
+#     timerAttuale = timer.timer
+#     context = {"servers": servers, 'timer': timerAttuale}
+#     return render(request, 'config.html', context)
 
 # view per l'aggiunta dei server al db
-def addServer(request):
-    submitted = False
-    if request.method == 'POST':
-        form = ServerForm(request.POST)
+class AddServerView(FormView):
+    template_name = 'addServer.html'
+    form_class = ServerForm
+    success_url = 'addServer'
+    def form_valid(self, form):
+        form = ServerForm(self.request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/addServer?submitted=True')
-    else:
-        form = ServerForm
-        if 'submitted' in request.GET:
-            submitted = True
-    return render(request, 'addServer.html', {'form': form, 'submitted': submitted})
+            return HttpResponseRedirect('addServer')
+            
+# def addServer(request):
+#     submitted = False
+#     if request.method == 'POST':
+#         form = ServerForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect('/addServer?submitted=True')
+#     else:
+#         form = ServerForm
+#         if 'submitted' in request.GET:
+#             submitted = True
+#     return render(request, 'addServer.html', {'form': form, 'submitted': submitted})
 
 #view che implementa l'inserimento e aggiornamento del timer
 def inserisciTimer(request):
