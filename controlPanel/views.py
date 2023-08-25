@@ -1,5 +1,7 @@
 from typing import Any, Dict
 from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.urls import reverse_lazy
 from .models import Server, Timer
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from .forms import ServerForm, TimerForm
@@ -13,7 +15,7 @@ import os
 import json
 import pytz
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, DeleteView
 import shutil
 
 # Create your views here.
@@ -86,27 +88,46 @@ class AddServerView(FormView):
 #     return render(request, 'addServer.html', {'form': form, 'submitted': submitted})
 
 #view che implementa l'inserimento e aggiornamento del timer
-def inserisciTimer(request):
-    submitted = False
-    currentTimer = Timer.objects.get(pk=1)
-    if request.method == 'POST':
+class InserisciTimerView(FormView):
+    template_name = 'insertTimer.html'
+    form_class = TimerForm
+    success_url = 'insertTimer'
+    def post(self, request):
+        form = TimerForm
+        currentTimer = Timer.objects.get(pk=1)
         newTimer = request.POST['timer']
         currentTimer.timer = newTimer
         currentTimer.save()
-        return HttpResponseRedirect('/insertTimer?submitted=True')
-    else: 
-        form = TimerForm
-        if 'submitted' in request.GET:
-            submitted = True
-    return render(request, 'insertTimer.html', {'form': form, 'submitted': submitted, 'timer': currentTimer.timer})
+        return render(request, self.template_name, {'form': form})
+    
+# def inserisciTimer(request):
+#     submitted = False
+#     currentTimer = Timer.objects.get(pk=1)
+#     if request.method == 'POST':
+#         newTimer = request.POST['timer']
+#         currentTimer.timer = newTimer
+#         currentTimer.save()
+#         return HttpResponseRedirect('/insertTimer?submitted=True')
+#     else: 
+#         form = TimerForm
+#         if 'submitted' in request.GET:
+#             submitted = True
+#     return render(request, 'insertTimer.html', {'form': form, 'submitted': submitted, 'timer': currentTimer.timer})
 
 
 # view per cancellare server dal database
+class DeleteServerView(DeleteView):
+    model = Server
+    template_name = 'config.html'
+    success_url = reverse_lazy('homepage')
 
-def deleteServer(request, server_id):
-    server = Server.objects.get(pk=server_id)
-    server.delete()
-    return redirect('config')
+    def form_valid(self, form):
+        messages.success(self.request, "Server cancellato con successo")
+        return super(self).form_valid(form)
+# def deleteServer(request, server_id):
+#     server = Server.objects.get(pk=server_id)
+#     server.delete()
+#     return redirect('config')
 
 # view che effettua ciclicamente il ping di tutti i server presenti nel database. La view utilizza un timer salvato in una tabella del database.
 # La view salva in un file di testo un messaggio sullo stato dei server.

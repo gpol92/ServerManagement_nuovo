@@ -34,7 +34,7 @@
             <a href="{% url 'add-server' %}" class="material-symbols-outlined add">
                 add
             </a>
-            <a href="{% url 'delete-server' server.id %}" onclick="return confirm('Vuoi davvero cancellare il server selezionato?')" class="material-symbols-outlined delete">
+            <a href="{% url 'delete-server' server.pk %}" onclick="return confirm('Vuoi davvero cancellare il server selezionato?')" class="material-symbols-outlined delete">
                 delete
             </a>
             <span style="color: black;">{{ server.ip }} - {{ server.nome }}</span>
