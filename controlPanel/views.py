@@ -1,5 +1,5 @@
-from typing import Any, Dict
-from django.shortcuts import render, redirect
+from django.db import models
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse_lazy
 from .models import Server, Timer
@@ -10,11 +10,11 @@ from time import sleep
 from django.core.mail import send_mail
 from datetime import datetime
 import threading
-from wsgiref.util import FileWrapper
 import os
 import json
 import pytz
 from django.views.generic import TemplateView
+from django.views import View
 from django.views.generic.edit import FormView, DeleteView
 import shutil
 
@@ -116,14 +116,11 @@ class InserisciTimerView(FormView):
 
 
 # view per cancellare server dal database
-class DeleteServerView(DeleteView):
-    model = Server
-    template_name = 'config.html'
-    success_url = reverse_lazy('homepage')
-
-    def form_valid(self, form):
-        messages.success(self.request, "Server cancellato con successo")
-        return super(self).form_valid(form)
+class DeleteServerView(View):
+    def get(self, server_id):
+        server = Server.objects.get(pk=server_id)
+        server.delete()
+        return redirect('config')
 # def deleteServer(request, server_id):
 #     server = Server.objects.get(pk=server_id)
 #     server.delete()
@@ -131,7 +128,15 @@ class DeleteServerView(DeleteView):
 
 # view che effettua ciclicamente il ping di tutti i server presenti nel database. La view utilizza un timer salvato in una tabella del database.
 # La view salva in un file di testo un messaggio sullo stato dei server.
-
+class PingView(TemplateView):
+    def post(self, request):
+        timezone = pytz.timezone('Europe/Rome')
+        servers = Server.objects.all() 
+        responses = []
+        timer = Timer.objects.get(id=1)
+        timer = timer.timer
+        while True:
+            f = open()
 def ping(request):
     timezone = pytz.timezone('Europe/Rome')
     servers = Server.objects.all() 
