@@ -56,13 +56,6 @@ class ConfigView(TemplateView):
         context['timer'] = timerAttuale
         return context
 
-# def config(request):
-#     servers = Server.objects.all()
-#     timer = Timer.objects.get(pk=1)
-#     timerAttuale = timer.timer
-#     context = {"servers": servers, 'timer': timerAttuale}
-#     return render(request, 'config.html', context)
-
 # view per l'aggiunta dei server al db
 class AddServerView(FormView):
     template_name = 'addServer.html'
@@ -74,18 +67,7 @@ class AddServerView(FormView):
             form.save()
             return HttpResponseRedirect('addServer')
             
-# def addServer(request):
-#     submitted = False
-#     if request.method == 'POST':
-#         form = ServerForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/addServer?submitted=True')
-#     else:
-#         form = ServerForm
-#         if 'submitted' in request.GET:
-#             submitted = True
-#     return render(request, 'addServer.html', {'form': form, 'submitted': submitted})
+
 
 #view che implementa l'inserimento e aggiornamento del timer
 class InserisciTimerView(FormView):
@@ -100,19 +82,6 @@ class InserisciTimerView(FormView):
         currentTimer.save()
         return render(request, self.template_name, {'form': form})
     
-# def inserisciTimer(request):
-#     submitted = False
-#     currentTimer = Timer.objects.get(pk=1)
-#     if request.method == 'POST':
-#         newTimer = request.POST['timer']
-#         currentTimer.timer = newTimer
-#         currentTimer.save()
-#         return HttpResponseRedirect('/insertTimer?submitted=True')
-#     else: 
-#         form = TimerForm
-#         if 'submitted' in request.GET:
-#             submitted = True
-#     return render(request, 'insertTimer.html', {'form': form, 'submitted': submitted, 'timer': currentTimer.timer})
 
 
 # view per cancellare server dal database
@@ -121,10 +90,6 @@ class DeleteServerView(View):
         server = Server.objects.get(pk=server_id)
         server.delete()
         return redirect('config')
-# def deleteServer(request, server_id):
-#     server = Server.objects.get(pk=server_id)
-#     server.delete()
-#     return redirect('config')
 
 # view che effettua ciclicamente il ping di tutti i server presenti nel database. La view utilizza un timer salvato in una tabella del database.
 # La view salva in un file di testo un messaggio sullo stato dei server.
