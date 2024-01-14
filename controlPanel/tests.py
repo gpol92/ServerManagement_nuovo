@@ -7,5 +7,5 @@ class ConfigViewTest(TestCase):
     def test_get_context_data(self):
         request = RequestFactory().get('/')
         view = ConfigView()
-        view.setup()
+        view.setup(request)
         view.get_context_data()
