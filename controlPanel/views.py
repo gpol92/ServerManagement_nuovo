@@ -47,10 +47,18 @@ class HomepageView(TemplateView):
 # view per renderizzare nella pagina il contenuto del database dei server
 class ConfigView(TemplateView):
     template_name = 'config.html'
+
     def get_context_data(self, **kwargs):
         servers = Server.objects.all()
-        timer = Timer.objects.get(pk=1)
-        timerAttuale = timer.timer
+        try:
+            timer = Timer.objects.get(pk=1)
+            print(timer)
+        except Timer.DoesNotExist:
+            # Handle the case where the Timer object is not found
+            print("Timer with ID 1 not found.")
+            timer = None
+
+        timerAttuale = timer.timer if timer else None
         context = super().get_context_data(**kwargs)
         context['servers'] = servers
         context['timer'] = timerAttuale

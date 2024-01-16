@@ -5,7 +5,7 @@ from .views import ConfigView
 
 class ConfigViewTest(TestCase):
     def test_get_context_data(self):
-        request = RequestFactory().get('/')
+        request = RequestFactory().get('/config/')
         view = ConfigView()
         view.setup(request)
         view.get_context_data()

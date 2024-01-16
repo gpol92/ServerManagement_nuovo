@@ -1,2 +1,2 @@
 requests == 2.26.0
-django == 3.2.6
+django == 5.0
