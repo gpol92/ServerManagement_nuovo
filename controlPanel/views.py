@@ -1,10 +1,11 @@
 from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
-from .models import Server, Timer
+from .models import Server, Timer, User
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from .forms import ServerForm, TimerForm
+from .forms import ServerForm, TimerForm, UserForm
 import requests
 from time import sleep
 from django.core.mail import send_mail
@@ -41,8 +42,29 @@ class EmailThread(threading.Thread):
 
 class HomepageView(TemplateView):
     template_name = 'homepage.html'
-# def homepage(request):
-#     return render(request, 'homepage.html')
+
+class LoginView(View):
+    template_name = 'login.html'
+    form_class = UserForm
+
+    def get(self, request):
+        form = self.form_class()
+        message = ''
+        return render(request, self.template_name, context={'form': form, 'message': message})
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                nome = form.cleaned_data['nome'],
+                cognome = form.cleaned_data['cognome'],
+                email = form.cleaned_data['email'],
+                password = form.cleaned_data['password']
+            )
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+        message = 'Login failed!'
+        return render(request, self.template_name, context={'form': form, 'message': message})
 
 # view per renderizzare nella pagina il contenuto del database dei server
 class ConfigView(TemplateView):
@@ -56,13 +78,6 @@ class ConfigView(TemplateView):
         context['timer'] = timerAttuale
         return context
 
-# def config(request):
-#     servers = Server.objects.all()
-#     timer = Timer.objects.get(pk=1)
-#     timerAttuale = timer.timer
-#     context = {"servers": servers, 'timer': timerAttuale}
-#     return render(request, 'config.html', context)
-
 # view per l'aggiunta dei server al db
 class AddServerView(FormView):
     template_name = 'addServer.html'
@@ -73,19 +88,6 @@ class AddServerView(FormView):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('addServer')
-            
-# def addServer(request):
-#     submitted = False
-#     if request.method == 'POST':
-#         form = ServerForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/addServer?submitted=True')
-#     else:
-#         form = ServerForm
-#         if 'submitted' in request.GET:
-#             submitted = True
-#     return render(request, 'addServer.html', {'form': form, 'submitted': submitted})
 
 #view che implementa l'inserimento e aggiornamento del timer
 class InserisciTimerView(FormView):
@@ -100,19 +102,6 @@ class InserisciTimerView(FormView):
         currentTimer.save()
         return render(request, self.template_name, {'form': form})
     
-# def inserisciTimer(request):
-#     submitted = False
-#     currentTimer = Timer.objects.get(pk=1)
-#     if request.method == 'POST':
-#         newTimer = request.POST['timer']
-#         currentTimer.timer = newTimer
-#         currentTimer.save()
-#         return HttpResponseRedirect('/insertTimer?submitted=True')
-#     else: 
-#         form = TimerForm
-#         if 'submitted' in request.GET:
-#             submitted = True
-#     return render(request, 'insertTimer.html', {'form': form, 'submitted': submitted, 'timer': currentTimer.timer})
 
 
 # view per cancellare server dal database
@@ -121,10 +110,6 @@ class DeleteServerView(View):
         server = Server.objects.get(pk=server_id)
         server.delete()
         return redirect('config')
-# def deleteServer(request, server_id):
-#     server = Server.objects.get(pk=server_id)
-#     server.delete()
-#     return redirect('config')
 
 # view che effettua ciclicamente il ping di tutti i server presenti nel database. La view utilizza un timer salvato in una tabella del database.
 # La view salva in un file di testo un messaggio sullo stato dei server.

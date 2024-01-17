@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Server, Timer
+from .models import Server, Timer, User
 
 class ServerForm(ModelForm):
     class Meta:
@@ -34,5 +34,22 @@ class TimerForm(ModelForm):
 
         widgets = {
             'timer': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Timer in minuti'}),
+        }
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('nome', 'cognome', 'email', 'password',)
+        labels = {
+            'nome': '',
+            'cognome': '',
+            'email': '',
+            'password': '',
+        }
+        widgets = {
+            'nome': forms.TextInput(attrs={'class:': 'form-control', 'placeholder': 'Inserisci il nome'}),
+            'cognome': forms.TextInput(attrs={'class:': 'form-control', 'placeholder': 'Inserisci il cognome'}),
+            'email': forms.TextInput(attrs={'class:': 'form-control', 'placeholder': 'Inserisci l\'email'}),
+            'password': forms.TextInput(attrs={'class:': 'form-control', 'placeholder': 'Inserisci la password'}),
         }
 
