@@ -25,5 +25,5 @@ class AddServerTestCase(TestCase):
         Server.objects.create(ip="www.instagram.com", nome="Instagram", domanda="ciao", risposta="Eccomi", tipoRisposta = "Stringa")
     def test_addServer_get_context_data(self):
         request = RequestFactory().get('/addServer/')
-        AddServerView = AddServerView()
-        AddServerView.setup(request)
+        addServerView = AddServerView()
+        addServerView.setup(request)
