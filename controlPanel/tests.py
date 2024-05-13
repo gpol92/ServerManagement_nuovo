@@ -1,7 +1,7 @@
 from django.db import connections
 from django.test import TestCase, RequestFactory
 from controlPanel.models import Timer, Server
-from controlPanel.views import ConfigView
+from controlPanel.views import ConfigView, AddServerView
 
 # class MyTestCase(TestCase):
 #     def test_access_test_database(self):
@@ -22,4 +22,8 @@ class TimerTestCase(TestCase):
 
 class AddServerTestCase(TestCase):
     def setUp(self):
-        Server.objects.
+        Server.objects.create(ip="www.instagram.com", nome="Instagram", domanda="ciao", risposta="Eccomi", tipoRisposta = "Stringa")
+    def test_addServer_get_context_data(self):
+        request = RequestFactory().get('/addServer/')
+        AddServerView = AddServerView()
+        AddServerView.setup(request)
