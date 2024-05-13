@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import make_password
 from .models import Server, Timer, User
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from .forms import ServerForm, TimerForm, UserForm, UserRegisterForm
@@ -71,7 +72,14 @@ class RegistrationView(CreateView):
     success_url = reverse_lazy('login')
     form_class = UserRegisterForm
     success_message = "Your profile has been created successfully"
-    
+    # def post(request):
+    #     user = User.objects.create(
+    #         name = request.POST['nome'],
+    #         password = make_password(request.POST['password']),
+    #         email = request.POST['email'],
+    #         cognome = request.POST['cognome']
+    #     )
+    #     return HttpResponseRedirect(reverse_lazy('homepage'))
 # view per renderizzare nella pagina il contenuto del database dei server
 class ConfigView(TemplateView):
     template_name = 'config.html'

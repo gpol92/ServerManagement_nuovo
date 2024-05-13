@@ -56,6 +56,6 @@ class UserForm(ModelForm):
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
-    class Meta:
-        model = User
-        fields = ['nome', 'cognome', 'password']
+    nome = forms.CharField()
+    cognome = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput(), required=True)

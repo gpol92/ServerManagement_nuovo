@@ -19,3 +19,4 @@ class TimerTestCase(TestCase):
         configView = ConfigView()
         configView.setup(request)
         print(configView.get_context_data())
+

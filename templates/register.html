@@ -26,5 +26,10 @@
             </div>   
         </nav>
     </form>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+    </form>
 </body>
 </html>
