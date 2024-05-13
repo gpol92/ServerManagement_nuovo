@@ -20,3 +20,6 @@ class TimerTestCase(TestCase):
         configView.setup(request)
         print(configView.get_context_data())
 
+class AddServerTestCase(TestCase):
+    def setUp(self):
+        Server.objects.
