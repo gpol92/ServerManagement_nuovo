@@ -19,6 +19,10 @@ body {
     text-decoration: none;
 }
 
+.subtitle2 {
+    color: white;
+}
+
 #pingForm {
     margin-top: 40px;
     text-align: center;
@@ -43,5 +47,9 @@ li {
 
 .btn {
     margin-top: 20px;
+}
+
+.userForm {
+    align-items: center;
 }
 

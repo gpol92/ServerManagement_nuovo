@@ -1,9 +1,12 @@
 from django.urls import path
 
-from .views import HomepageView, ConfigView, DeleteServerView, AddServerView, ping, storicoPing, download, InserisciTimerView, err_download, remove_file
+from .views import HomepageView, LoginView, RegistrationView, ConfigView, DeleteServerView, AddServerView, ping, storicoPing, download, InserisciTimerView, err_download, remove_file
 urlpatterns = [
     #view homepage
     path('', HomepageView.as_view(), name='homepage'),
+    # login
+    path('login', LoginView.as_view(), name="login"),
+    path('register', RegistrationView.as_view(), name="register"),
     # visualizzazione dei server e i pulsanti per l'aggiunta e la rimozione
     path('config', ConfigView.as_view(), name="config"),
     # rimozione di un server

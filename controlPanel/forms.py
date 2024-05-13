@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from .models import Server, Timer, User
+from django.contrib.auth.forms import UserCreationForm
 
 class ServerForm(ModelForm):
     class Meta:
@@ -53,3 +54,8 @@ class UserForm(ModelForm):
             'password': forms.TextInput(attrs={'class:': 'form-control', 'placeholder': 'Inserisci la password'}),
         }
 
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
+    class Meta:
+        model = User
+        fields = ['nome', 'cognome', 'password']

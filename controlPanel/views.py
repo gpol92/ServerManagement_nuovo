@@ -1,11 +1,11 @@
 from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.urls import reverse_lazy
 from .models import Server, Timer, User
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from .forms import ServerForm, TimerForm, UserForm
+from .forms import ServerForm, TimerForm, UserForm, UserRegisterForm
 import requests
 from time import sleep
 from django.core.mail import send_mail
@@ -16,7 +16,7 @@ import json
 import pytz
 from django.views.generic import TemplateView
 from django.views import View
-from django.views.generic.edit import FormView, DeleteView
+from django.views.generic.edit import FormView, DeleteView, CreateView
 import shutil
 
 # Create your views here.
@@ -66,6 +66,12 @@ class LoginView(View):
         message = 'Login failed!'
         return render(request, self.template_name, context={'form': form, 'message': message})
 
+class RegistrationView(CreateView):
+    template_name = 'register.html'
+    success_url = reverse_lazy('login')
+    form_class = UserRegisterForm
+    success_message = "Your profile has been created successfully"
+    
 # view per renderizzare nella pagina il contenuto del database dei server
 class ConfigView(TemplateView):
     template_name = 'config.html'

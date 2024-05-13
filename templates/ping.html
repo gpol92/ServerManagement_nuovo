@@ -29,6 +29,7 @@
             {% csrf_token %}
             <input href="{% url 'ping' %}" type="submit" id="startPing" value="Avvia ping" class="btn btn-success">
             <a id="homepage" href="{% url 'homepage' %}" class="btn btn-primary">HOMEPAGE</a>
+            <a href="{% url 'login' %}" class="navbar-brand subtitle" type="submit">LOGIN</a>
             <input type="button" value="Scarica storico ping" class="btn btn-primary" onclick="window.open('download_txt')">
             <input type="button" value="Storico server non funzionanti" class="btn btn-primary" onclick="window.open('err_download')">
             <input type="button" value="Cancella file" class="btn btn-danger" onclick="window.open('cancella_storico')">
