@@ -8,7 +8,7 @@ ADD serverControl /
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "./daemon.py"]
+# CMD ["python", "./daemon.py"]
 
 # # ENV DockerHome = /home/walid/Scrivania/python/ServerControlPanel/serverControl
 
