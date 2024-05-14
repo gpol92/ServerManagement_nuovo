@@ -4,7 +4,7 @@ ADD daemon.py /
 
 ADD requirements.txt /
 
-ADD .serverControl /
+ADD serverControl /
 
 RUN pip install -r requirements.txt
 
