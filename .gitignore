@@ -3,3 +3,4 @@ __pycache__
 media
 daemon.spec
 db.sqlite3
+Dockerfile
